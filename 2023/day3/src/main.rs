@@ -1,8 +1,4 @@
-#![allow(unused_imports, unused, unused_mut)]
-
-use core::num;
 use std::collections::HashSet;
-use std::error::Error;
 use std::fs::File;
 use std::io::BufReader;
 use std::io::prelude::*;
@@ -10,7 +6,7 @@ use std::u32;
 
 use std::ops::Range;
 
-//Two pass plan
+//part1 - Two pass plan
 //First pass makes a set of valid spots
 //second pass iterates the input, adding numbers which are in valid spots (check all digits)
 //  to the sum
@@ -56,7 +52,7 @@ fn get_valid_spots(lines: Vec<String>) -> HashSet<String> {
     for (index, line) in lines.enumerate() {
         let symbols = line.chars()
             .enumerate()
-            .filter(|(index, elem)| !elem.is_ascii_digit() && !elem.eq(&'.'))
+            .filter(|(_, elem)| !elem.is_ascii_digit() && !elem.eq(&'.'))
             .collect::<Vec<_>>();
         for symbol in symbols.iter() {
             valid_spots.insert(format!("{} {}", index - 1, symbol.0 - 1));

@@ -1,5 +1,3 @@
-#![allow(unused_imports,unused_variables,dead_code)]
-
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;

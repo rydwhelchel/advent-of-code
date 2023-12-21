@@ -302,7 +302,7 @@ fn get_test_data() -> Vec<Vec<char>> {
 #[test]
 fn test_part1() {
     let mut input = get_test_data();
-    let part1 = part1(&mut input);
+    let part1 = part1(&mut input, 0, 0, Direction::Right);
     assert_eq!(part1, 46)
 }
 

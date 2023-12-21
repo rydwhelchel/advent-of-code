@@ -258,7 +258,7 @@ fn part2(input: &mut Vec<Vec<char>>) -> usize {
         y += 1;
     }
 
-    //bottom row
+    //right column
     let x = input[0].len() - 1;
     let mut y = 0;
     while y < input.len() {

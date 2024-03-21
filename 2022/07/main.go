@@ -67,7 +67,6 @@ func part1(lines []string) Directory {
 }
 
 // I'M OVERFLOWING
-// https://discord.com/channels/118456055842734083/118456055842734083/1219472894787321916
 func (dir *Directory) fillDirectory(lines []string, index int) (Directory, int) {
     for index < len(lines) {
         entry := strings.Split(lines[index], " ")

@@ -27,3 +27,4 @@ func part1(data []byte) int {
 func part2(data []byte) int {
 	return 0
 }
+}

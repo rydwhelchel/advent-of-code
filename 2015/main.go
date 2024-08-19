@@ -1,23 +1,13 @@
 package main
 
 import (
-	"log"
-	"os"
-	"time"
+	day7 "github.com/rydwhelchel/advent-of-code/2015/Day07"
+	helpers "github.com/rydwhelchel/advent-of-code/helpers/go"
 )
 
 func main() {
-	inputFile := "./input.txt"
-	data, err := os.ReadFile(inputFile)
-	if err != nil {
-		log.Panicln("Failed to read file")
-	}
-	t := time.Now()
-	log.Printf("Part 1: %v\n", part1(data))
-	log.Printf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
-	t = time.Now()
-	log.Printf("Part 2: %v\n", part2(data))
-	log.Printf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
+	day7 := day7.Day7Context{Path: "./Day07"}
+	helpers.Solve(&day7)
 }
 
 func part1(data []byte) int {
@@ -26,5 +16,4 @@ func part1(data []byte) int {
 
 func part2(data []byte) int {
 	return 0
-}
 }

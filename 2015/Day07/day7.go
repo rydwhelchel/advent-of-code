@@ -9,21 +9,21 @@ import (
 	helpers "github.com/rydwhelchel/advent-of-code/helpers/go"
 )
 
-type Day7Context struct {
+type Context struct {
 	Path string
 }
 
-func (ctx *Day7Context) Name() string {
+func (ctx *Context) Name() string {
 	return "Day 7"
 }
 
 // I can't believe this worked first try, all those asserts for nada
-func (ctx *Day7Context) Part1() string {
+func (ctx *Context) Part1() string {
 	lines := helpers.ReadInputAsLines(ctx.Path)
 	return solvePart1(lines)
 }
 
-func (ctx *Day7Context) Part2() string {
+func (ctx *Context) Part2() string {
 	lines := helpers.ReadInputAsLines(ctx.Path)
 	part1Output := solvePart1(lines)
 	instructions := parseInstructions(lines)

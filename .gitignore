@@ -1,3 +1,7 @@
 **/target
 **/.vscode
 **/.swp
+**/tmp
+.idea
+**/input
+**/input.txt

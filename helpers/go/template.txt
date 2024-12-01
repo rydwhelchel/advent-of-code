@@ -1,0 +1,7 @@
+type Context struct {
+	Path string
+}
+
+func (ctx *Context) Name() string  { return "" }
+func (ctx *Context) Part1() string { return "" }
+func (ctx *Context) Part2() string { return "" }

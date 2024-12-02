@@ -45,7 +45,7 @@ func (ctx *Context) Part1() string {
 	slices.Sort(right)
 	sum := 0
 	for i := range left {
-		sum += abs(left[i] - right[i])
+		sum += helpers.Abs(left[i] - right[i])
 	}
 	return strconv.Itoa(sum)
 }
@@ -81,11 +81,4 @@ func (ctx *Context) Part2() string {
 		sum += v * rightMap[v]
 	}
 	return strconv.Itoa(sum)
-}
-
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
 }

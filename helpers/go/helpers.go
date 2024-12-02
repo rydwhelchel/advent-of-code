@@ -46,3 +46,10 @@ func ReadXAsLines(name string) []string {
 	data := ReadXAsString(name)
 	return strings.Split(data, "\n")
 }
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}

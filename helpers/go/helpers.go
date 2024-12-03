@@ -23,9 +23,9 @@ func Solve(day Day) {
 	log.Printf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
 }
 
-//	func ReadInputAsString(name string) string {
-//		return ReadXAsString(name + "/input")
-//	}
+func ReadInputAsString(name string) string {
+	return ReadXAsString(name + "/input")
+}
 
 func ReadXAsString(name string) string {
 	inputFile := name

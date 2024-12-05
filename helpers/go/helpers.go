@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"errors"
 	"log"
 	"os"
 	"strings"
@@ -47,9 +48,113 @@ func ReadXAsLines(name string) []string {
 	return strings.Split(data, "\n")
 }
 
+// ReadInputAsByteArrays does not include the new line characters
+func ReadInputAsByteArrays(day string) [][]byte {
+	return ReadXAsByteArray(day + "/input")
+}
+
+// ReadXAsByteArray does not include the new line characters
+func ReadXAsByteArray(name string) [][]byte {
+	data := ReadXAsString(name)
+	lines := strings.Split(data, "\n")
+	bytes := make([][]byte, len(lines))
+	for i := range bytes {
+		bytes[i] = make([]byte, len(lines[0]))
+	}
+	for _, line := range lines {
+		bytes = append(bytes, []byte(line))
+	}
+	return bytes
+}
+
 func Abs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
+
+// Coordinates contain X (second layer of matrix), Y (first layer of matrix), Z (third layer of matrix)
+type Coordinates struct {
+	X int
+	Y int
+	Z int
+}
+
+type Direction int
+
+// TODO: Make more complicated for 3d if needed
+const (
+	//NW Northwest X-1, Y-1
+	NW Direction = iota
+	//N North Y-1
+	N
+	//NE Northeast X+1, Y-1
+	NE
+	//W West X+1
+	W
+	//E East X-1
+	E
+	//SW Southwest Y-1, X-1
+	SW
+	//S South Y-1
+	S
+	//SE Southeast X+1, Y-1
+	SE
+)
+
+func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction) (K, Coordinates, error) {
+	switch direction {
+	case NW:
+		if location.Y-1 >= 0 && location.X-1 >= 0 {
+			return grid[location.Y-1][location.X-1], Coordinates{X: location.X - 1, Y: location.Y - 1}, nil
+		}
+	case N:
+		if location.Y-1 >= 0 {
+			return grid[location.Y-1][location.X], Coordinates{X: location.X, Y: location.Y - 1}, nil
+		}
+	case NE:
+		if location.Y-1 >= 0 && location.X+1 < len(grid[0]) {
+			return grid[location.Y-1][location.X+1], Coordinates{X: location.X + 1, Y: location.Y - 1}, nil
+		}
+	case W:
+		if location.X-1 >= 0 {
+			return grid[location.Y][location.X-1], Coordinates{X: location.X - 1, Y: location.Y}, nil
+		}
+	case E:
+		if location.X+1 < len(grid[0]) {
+			return grid[location.Y][location.X+1], Coordinates{X: location.X + 1, Y: location.Y}, nil
+		}
+	case SW:
+		if location.Y+1 < len(grid) && location.X-1 >= 0 {
+			return grid[location.Y+1][location.X-1], Coordinates{X: location.X - 1, Y: location.Y + 1}, nil
+		}
+	case S:
+		if location.Y+1 < len(grid) {
+			return grid[location.Y+1][location.X], Coordinates{X: location.X, Y: location.Y + 1}, nil
+		}
+	case SE:
+		if location.Y+1 < len(grid) && location.X+1 < len(grid[0]) {
+			return grid[location.Y+1][location.X+1], Coordinates{X: location.X + 1, Y: location.Y + 1}, nil
+		}
+	}
+
+	return *new(K), *new(Coordinates), errors.New("off grid")
+}
+
+// GetXInDirection returns current element + X-1 in direction
+func GetXInDirection[K any](x int, grid [][]K, location Coordinates, direction Direction) ([]K, Coordinates, error) {
+	ks := []K{grid[location.Y][location.X]}
+	for x > 1 {
+		val, loc, err := GetInDirection(grid, location, direction)
+		if err != nil {
+			return nil, *new(Coordinates), errors.New("off grid")
+		}
+		location = loc
+		ks = append(ks, val)
+		x--
+	}
+	return ks, location, nil
+}
+
+//func getNeighbors[K any](grid [][]K, location Coordinates)

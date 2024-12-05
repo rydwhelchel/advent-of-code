@@ -3,5 +3,9 @@ type Context struct {
 }
 
 func (ctx *Context) Name() string  { return "" }
-func (ctx *Context) Part1() string { return "" }
-func (ctx *Context) Part2() string { return "" }
+func (ctx *Context) Part1() string {
+	return ""
+}
+func (ctx *Context) Part2() string {
+	return ""
+}

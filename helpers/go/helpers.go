@@ -91,9 +91,9 @@ const (
 	N
 	//NE Northeast X+1, Y-1
 	NE
-	//W West X+1
+	//W West X-1
 	W
-	//E East X-1
+	//E East X+1
 	E
 	//SW Southwest Y-1, X-1
 	SW

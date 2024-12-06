@@ -103,6 +103,8 @@ const (
 	SE
 )
 
+const OFFGRID = "off grid"
+
 func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction) (K, Coordinates, error) {
 	switch direction {
 	case NW:
@@ -139,7 +141,7 @@ func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction
 		}
 	}
 
-	return *new(K), *new(Coordinates), errors.New("off grid")
+	return *new(K), *new(Coordinates), errors.New(OFFGRID)
 }
 
 // GetXInDirection returns current element + X-1 in direction
@@ -148,7 +150,7 @@ func GetXInDirection[K any](x int, grid [][]K, location Coordinates, direction D
 	for x > 1 {
 		val, loc, err := GetInDirection(grid, location, direction)
 		if err != nil {
-			return nil, *new(Coordinates), errors.New("off grid")
+			return nil, *new(Coordinates), errors.New(OFFGRID)
 		}
 		location = loc
 		ks = append(ks, val)
@@ -158,3 +160,35 @@ func GetXInDirection[K any](x int, grid [][]K, location Coordinates, direction D
 }
 
 //func getNeighbors[K any](grid [][]K, location Coordinates)
+
+// GetByteGrid only works with uniform length lines
+func GetByteGrid(lines []string) [][]byte {
+	var grid [][]byte
+	for i := 0; i < len(lines); i++ {
+		grid = append(grid, []byte(lines[i]))
+	}
+	return grid
+}
+
+func TurnRight(dir Direction) Direction {
+	switch dir {
+	case N:
+		return E
+	case E:
+		return S
+	case S:
+		return W
+	case W:
+		return N
+		// Not handling 45 degree turns :)
+	default:
+		return N
+	}
+}
+
+func (loc1 Coordinates) Intersects(loc2 Coordinates) bool {
+	if loc1.X == loc2.X || loc1.Y == loc2.Y {
+		return true
+	}
+	return false
+}

@@ -6,6 +6,7 @@ import (
 	"github.com/rydwhelchel/advent-of-code/2024/Day03"
 	"github.com/rydwhelchel/advent-of-code/2024/Day04"
 	"github.com/rydwhelchel/advent-of-code/2024/Day05"
+	"github.com/rydwhelchel/advent-of-code/2024/Day06"
 	helpers "github.com/rydwhelchel/advent-of-code/helpers/go"
 )
 
@@ -20,4 +21,6 @@ func main() {
 	helpers.Solve(&day4Ctx)
 	day5Ctx := Day05.Context{Path: "./Day05"}
 	helpers.Solve(&day5Ctx)
+	day6Ctx := Day06.Context{Path: "./Day06"}
+	helpers.Solve(&day6Ctx)
 }

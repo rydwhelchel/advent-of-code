@@ -107,9 +107,26 @@ func (ctx *Context) Part2() string {
 		return false
 	}
 
+	var inputs = make(chan helpers.Coordinates)
+	var results = make(chan bool, len(visited))
 	sum := 0
+
+	spawnWorker := func(inputs <-chan helpers.Coordinates, results chan<- bool) {
+		for input := range inputs {
+			results <- checkLoop(input)
+		}
+	}
+
+	for i := 0; i < 800; i++ {
+		go spawnWorker(inputs, results)
+	}
+
 	for poss, _ := range visited {
-		if checkLoop(poss) {
+		inputs <- poss
+	}
+	close(inputs)
+	for i := 0; i < len(visited); i++ {
+		if <-results {
 			sum++
 		}
 	}

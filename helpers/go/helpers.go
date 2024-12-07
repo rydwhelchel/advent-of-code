@@ -34,7 +34,7 @@ func ReadXAsString(name string) string {
 	if err != nil {
 		log.Panicln("Failed to read file")
 	}
-	return string(data)
+	return strings.Trim(string(data), "\n")
 }
 
 // ReadInputAsLines does not include the new line characters

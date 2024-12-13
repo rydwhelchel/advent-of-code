@@ -48,23 +48,27 @@ func ReadXAsLines(name string) []string {
 	return strings.Split(data, "\n")
 }
 
-// ReadInputAsByteArrays does not include the new line characters
-func ReadInputAsByteArrays(day string) [][]byte {
+// ReadInputAsByteArray does not include the new line characters
+func ReadInputAsByteArray(day string) [][]byte {
 	return ReadXAsByteArray(day + "/input")
+}
+
+func ReadRawAsByteArray(input string) [][]byte {
+	lines := strings.Split(input, "\n")
+	bytes := make([][]byte, len(lines))
+	for i := range bytes {
+		bytes[i] = make([]byte, len(lines[0]))
+	}
+	for i, line := range lines {
+		bytes[i] = []byte(line)
+	}
+	return bytes
 }
 
 // ReadXAsByteArray does not include the new line characters
 func ReadXAsByteArray(name string) [][]byte {
 	data := ReadXAsString(name)
-	lines := strings.Split(data, "\n")
-	bytes := make([][]byte, len(lines))
-	for i := range bytes {
-		bytes[i] = make([]byte, len(lines[0]))
-	}
-	for _, line := range lines {
-		bytes = append(bytes, []byte(line))
-	}
-	return bytes
+	return ReadRawAsByteArray(data)
 }
 
 func Abs(x int) int {
@@ -144,6 +148,62 @@ func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction
 	return *new(K), *new(Coordinates), errors.New(OFFGRID)
 }
 
+func GetInDirectionIncludingOffGrid[K any](grid [][]K, location Coordinates, direction Direction) (K, Coordinates) {
+	switch direction {
+	case NW:
+		if location.Y-1 >= 0 && location.X-1 >= 0 {
+			return grid[location.Y-1][location.X-1], Coordinates{X: location.X - 1, Y: location.Y - 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case N:
+		if location.Y-1 >= 0 {
+			return grid[location.Y-1][location.X], Coordinates{X: location.X, Y: location.Y - 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case NE:
+		if location.Y-1 >= 0 && location.X+1 < len(grid[0]) {
+			return grid[location.Y-1][location.X+1], Coordinates{X: location.X + 1, Y: location.Y - 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case W:
+		if location.X-1 >= 0 {
+			return grid[location.Y][location.X-1], Coordinates{X: location.X - 1, Y: location.Y}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case E:
+		if location.X+1 < len(grid[0]) {
+			return grid[location.Y][location.X+1], Coordinates{X: location.X + 1, Y: location.Y}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case SW:
+		if location.Y+1 < len(grid) && location.X-1 >= 0 {
+			return grid[location.Y+1][location.X-1], Coordinates{X: location.X - 1, Y: location.Y + 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case S:
+		if location.Y+1 < len(grid) {
+			return grid[location.Y+1][location.X], Coordinates{X: location.X, Y: location.Y + 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	case SE:
+		if location.Y+1 < len(grid) && location.X+1 < len(grid[0]) {
+			return grid[location.Y+1][location.X+1], Coordinates{X: location.X + 1, Y: location.Y + 1}
+		} else {
+			return *new(K), Coordinates{X: location.X - 1, Y: location.Y - 1}
+		}
+	}
+
+	panic("Shouldn't get here right now")
+	return *new(K), *new(Coordinates)
+}
+
 // GetXInDirection returns current element + X-1 in direction
 func GetXInDirection[K any](x int, grid [][]K, location Coordinates, direction Direction) ([]K, Coordinates, error) {
 	ks := []K{grid[location.Y][location.X]}
@@ -159,7 +219,29 @@ func GetXInDirection[K any](x int, grid [][]K, location Coordinates, direction D
 	return ks, location, nil
 }
 
-//func getNeighbors[K any](grid [][]K, location Coordinates)
+type Neighbor[K any] struct {
+	Val    K
+	Coords Coordinates
+	Dir    Direction
+}
+
+// GetNeighbors Ignores off grid errors and adds them anyway
+func GetNeighbors[K any](grid [][]K, location Coordinates) []Neighbor[K] {
+	var neighbors []Neighbor[K]
+	up, c := GetInDirectionIncludingOffGrid(grid, location, N)
+	neighbors = append(neighbors, Neighbor[K]{Val: up, Coords: c, Dir: N})
+
+	left, c := GetInDirectionIncludingOffGrid(grid, location, W)
+	neighbors = append(neighbors, Neighbor[K]{Val: left, Coords: c, Dir: W})
+
+	right, c := GetInDirectionIncludingOffGrid(grid, location, E)
+	neighbors = append(neighbors, Neighbor[K]{Val: right, Coords: c, Dir: E})
+
+	down, c := GetInDirectionIncludingOffGrid(grid, location, S)
+	neighbors = append(neighbors, Neighbor[K]{Val: down, Coords: c, Dir: S})
+
+	return neighbors
+}
 
 // GetByteGrid only works with uniform length lines
 func GetByteGrid(lines []string) [][]byte {

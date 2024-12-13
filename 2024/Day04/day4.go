@@ -12,7 +12,7 @@ type Context struct {
 func (ctx *Context) Name() string { return "Day 4" }
 
 func (ctx *Context) Part1() string {
-	grid := helpers.ReadInputAsByteArrays(ctx.Path)
+	grid := helpers.ReadInputAsByteArray(ctx.Path)
 
 	count := 0
 	for y := 0; y < len(grid); y++ {
@@ -49,7 +49,7 @@ func (ctx *Context) Part1() string {
 
 }
 func (ctx *Context) Part2() string {
-	grid := helpers.ReadInputAsByteArrays(ctx.Path)
+	grid := helpers.ReadInputAsByteArray(ctx.Path)
 
 	count := 0
 	for y := 0; y < len(grid); y++ {

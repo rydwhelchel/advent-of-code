@@ -107,6 +107,17 @@ const (
 	SE
 )
 
+//var DirectionChange = map[Direction]Coordinates {
+//	NW: {X: -1, Y: -1},
+//	N:  {X: 0, Y: -1},
+//	NE: {X: 1, Y: -1},
+//	W:  {X: -1, Y: 0},
+//	E:  {X: 1, Y: 0},
+//	SW: {X: -1, Y: 1},
+//	S:  {X: 0, Y: 1},
+//	SE: {X: 1, Y: 1},
+//}
+
 const OFFGRID = "off grid"
 
 func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction) (K, Coordinates, error) {

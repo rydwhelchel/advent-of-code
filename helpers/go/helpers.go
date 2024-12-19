@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	im "image"
 	"log"
 	"os"
 	"strings"
@@ -281,6 +282,14 @@ func TurnRight(dir Direction) Direction {
 
 func (loc1 Coordinates) Intersects(loc2 Coordinates) bool {
 	if loc1.X == loc2.X || loc1.Y == loc2.Y {
+		return true
+	}
+	return false
+}
+
+// PointInGrid checks if the given point fits within the bounds of the given grid. Only works for uniform grids
+func PointInGrid[T any](p im.Point, g [][]T) bool {
+	if p.X >= 0 && p.Y >= 0 && p.Y < len(g) && p.X < len(g[0]) {
 		return true
 	}
 	return false

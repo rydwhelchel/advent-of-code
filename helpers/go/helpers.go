@@ -25,8 +25,8 @@ func Solve(day Day) {
 	log.Printf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
 }
 
-func ReadInputAsString(name string) string {
-	return ReadXAsString(name + "/input")
+func ReadInputAsString(path string) string {
+	return ReadXAsString(path)
 }
 
 func ReadXAsString(name string) string {
@@ -35,12 +35,12 @@ func ReadXAsString(name string) string {
 	if err != nil {
 		log.Panicln("Failed to read file")
 	}
-	return strings.Trim(string(data), "\n")
+	return strings.Trim(string(data), " \n")
 }
 
 // ReadInputAsLines does not include the new line characters
-func ReadInputAsLines(day string) []string {
-	return ReadXAsLines(day + "/input")
+func ReadInputAsLines(path string) []string {
+	return ReadXAsLines(path)
 }
 
 // ReadXAsLines does not include the new line characters
@@ -50,8 +50,8 @@ func ReadXAsLines(name string) []string {
 }
 
 // ReadInputAsByteArray does not include the new line characters
-func ReadInputAsByteArray(day string) [][]byte {
-	return ReadXAsByteArray(day + "/input")
+func ReadInputAsByteArray(path string) [][]byte {
+	return ReadXAsByteArray(path)
 }
 
 func ReadRawAsByteArray(input string) [][]byte {

@@ -108,17 +108,6 @@ const (
 	SE
 )
 
-//var DirectionChange = map[Direction]Coordinates {
-//	NW: {X: -1, Y: -1},
-//	N:  {X: 0, Y: -1},
-//	NE: {X: 1, Y: -1},
-//	W:  {X: -1, Y: 0},
-//	E:  {X: 1, Y: 0},
-//	SW: {X: -1, Y: 1},
-//	S:  {X: 0, Y: 1},
-//	SE: {X: 1, Y: 1},
-//}
-
 const OFFGRID = "off grid"
 
 func GetInDirection[K any](grid [][]K, location Coordinates, direction Direction) (K, Coordinates, error) {
@@ -293,4 +282,39 @@ func PointInGrid[T any](p im.Point, g [][]T) bool {
 		return true
 	}
 	return false
+}
+
+var DirectionChange = map[Direction]im.Point{
+	NW: {X: -1, Y: -1},
+	N:  {X: 0, Y: -1},
+	NE: {X: 1, Y: -1},
+	W:  {X: -1, Y: 0},
+	E:  {X: 1, Y: 0},
+	SW: {X: -1, Y: 1},
+	S:  {X: 0, Y: 1},
+	SE: {X: 1, Y: 1},
+}
+
+// GetPointNeighbors gets the adjacent neighbors with no diags
+func GetPointNeighbors[K any](grid [][]K, point im.Point) []im.Point {
+	var neighbors []im.Point
+
+	nor := point.Add(DirectionChange[N])
+	if PointInGrid(nor, grid) {
+		neighbors = append(neighbors, nor)
+	}
+	eas := point.Add(DirectionChange[E])
+	if PointInGrid(eas, grid) {
+		neighbors = append(neighbors, eas)
+	}
+	sou := point.Add(DirectionChange[S])
+	if PointInGrid(sou, grid) {
+		neighbors = append(neighbors, sou)
+	}
+	wes := point.Add(DirectionChange[W])
+	if PointInGrid(wes, grid) {
+		neighbors = append(neighbors, wes)
+	}
+
+	return neighbors
 }

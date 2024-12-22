@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/rydwhelchel/advent-of-code/2024/Day08"
 	"github.com/rydwhelchel/advent-of-code/2024/Day09"
+	"github.com/rydwhelchel/advent-of-code/2024/Day10"
 	helpers "github.com/rydwhelchel/advent-of-code/helpers/go"
 )
 
@@ -25,6 +26,8 @@ func main() {
 	helpers.Solve(&day8Ctx)
 	day9Ctx := Day09.Context{Path: "./Day09/input"}
 	helpers.Solve(&day9Ctx)
+	day10Ctx := Day10.Context{Path: "./Day10/input"}
+	helpers.Solve(&day10Ctx)
 	//day11Ctx := Day11.Context{Path: "./Day11/input"}
 	//helpers.Solve(&day11Ctx)
 	//day12Ctx := Day12.Context{Path: "./Day12/input"}

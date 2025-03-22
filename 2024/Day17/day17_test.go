@@ -1,12 +1,10 @@
-package Day10
+package Day17
 
-import (
-	"testing"
-)
+import "testing"
 
 const (
-	part1Expected = "36"
-	part2Expected = "81"
+	part1Expected = "4,6,3,5,6,3,5,2,1,0"
+	part2Expected = "117440"
 )
 
 func TestPart1(t *testing.T) {
@@ -20,7 +18,7 @@ func TestPart1(t *testing.T) {
 func TestPart2(t *testing.T) {
 	testCtx := Context{Path: "./testinput"}
 	output := testCtx.Part2()
-	if part2Expected != output {
-		t.Errorf("Expected: %v, got %v\n", part2Expected, output)
+	if part1Expected != output {
+		t.Errorf("Expected: %v, got %v\n", part1Expected, output)
 	}
 }

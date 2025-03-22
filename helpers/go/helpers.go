@@ -2,17 +2,28 @@ package helpers
 
 import (
 	"errors"
+	"fmt"
 	im "image"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 type Day interface {
 	Name() string
 	Part1() string
 	Part2() string
+}
+
+type WIP interface {
+	WIP() string
+}
+
+type Visual interface {
+	Visualize() tea.Model
 }
 
 func Solve(day Day) {
@@ -23,6 +34,17 @@ func Solve(day Day) {
 	t = time.Now()
 	log.Printf("Part 2: %v\n", day.Part2())
 	log.Printf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
+}
+
+func SolveString(day Day) string {
+	t := time.Now()
+	s := fmt.Sprintf("~~~~~~~~~~ %v ~~~~~~~~~~\n", day.Name())
+	s += fmt.Sprintf("Part 1: %v\n", day.Part1())
+	s += fmt.Sprintf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
+	t = time.Now()
+	s += fmt.Sprintf("Part 2: %v\n", day.Part2())
+	s += fmt.Sprintf("	in %.6f seconds\n", time.Now().Sub(t).Seconds())
+	return s
 }
 
 func ReadInputAsString(path string) string {

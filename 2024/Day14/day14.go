@@ -160,6 +160,42 @@ func (st State) View() string {
 	return s
 }
 
+func (ctx *Context) Visualize() State {
+	lines := h.ReadInputAsLines(ctx.Path)
+
+	bots := getBots(lines)
+	// Assuming the picture will be mostly centered
+	center := i.Rect(GRIDMAXX/4, GRIDMAXY/4, 3*GRIDMAXX/4, 3*GRIDMAXY/4)
+
+	var entries []entry
+
+	for x := 1; x < 15000; x++ {
+		next(bots)
+		centralized := 0
+		for _, bot := range bots {
+			if bot.Loc.In(center) {
+				centralized++
+			}
+		}
+		entries = append(entries, entry{centralized, x, getLocs(bots)})
+	}
+	slices.SortFunc(entries, func(ent1, ent2 entry) int {
+		if ent1.centralized > ent2.centralized {
+			return -1
+		} else if ent1.centralized < ent2.centralized {
+			return 1
+		}
+		return 0
+	})
+
+	// Visualize output
+	return State{
+		Iteration: 0,
+		Entries:   entries,
+		Locations: entries[0].locs,
+	}
+}
+
 type entry struct {
 	centralized int
 	iteration   int

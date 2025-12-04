@@ -112,21 +112,21 @@ type Direction int
 
 // TODO: Make more complicated for 3d if needed
 const (
-	//NW Northwest X-1, Y-1
+	// NW Northwest X-1, Y-1
 	NW Direction = iota
-	//N North Y-1
+	// N North Y-1
 	N
-	//NE Northeast X+1, Y-1
+	// NE Northeast X+1, Y-1
 	NE
-	//W West X-1
+	// W West X-1
 	W
-	//E East X+1
+	// E East X+1
 	E
-	//SW Southwest Y-1, X-1
+	// SW Southwest Y-1, X-1
 	SW
-	//S South Y-1
+	// S South Y-1
 	S
-	//SE Southeast X+1, Y-1
+	// SE Southeast X+1, Y-1
 	SE
 )
 
@@ -224,7 +224,6 @@ func GetInDirectionIncludingOffGrid[K any](grid [][]K, location Coordinates, dir
 	}
 
 	panic("Shouldn't get here right now")
-	return *new(K), *new(Coordinates)
 }
 
 // GetXInDirection returns current element + X-1 in direction
@@ -248,7 +247,7 @@ type Neighbor[K any] struct {
 	Dir    Direction
 }
 
-// GetNeighbors Ignores off grid errors and adds them anyway
+// GetNeighbors Ignores off grid errors and adds them anyway, only gets direct ajacency, not diags
 func GetNeighbors[K any](grid [][]K, location Coordinates) []Neighbor[K] {
 	var neighbors []Neighbor[K]
 	up, c := GetInDirectionIncludingOffGrid(grid, location, N)
@@ -262,6 +261,24 @@ func GetNeighbors[K any](grid [][]K, location Coordinates) []Neighbor[K] {
 
 	down, c := GetInDirectionIncludingOffGrid(grid, location, S)
 	neighbors = append(neighbors, Neighbor[K]{Val: down, Coords: c, Dir: S})
+
+	return neighbors
+}
+
+// GetNeighborsWithDiags Ignores off grid errors and adds them anyway
+func GetNeighborsWithDiags[K any](grid [][]K, location Coordinates) []Neighbor[K] {
+	neighbors := GetNeighbors(grid, location)
+	upLeft, c := GetInDirectionIncludingOffGrid(grid, location, NW)
+	neighbors = append(neighbors, Neighbor[K]{Val: upLeft, Coords: c, Dir: NW})
+
+	upRight, c := GetInDirectionIncludingOffGrid(grid, location, NE)
+	neighbors = append(neighbors, Neighbor[K]{Val: upRight, Coords: c, Dir: NE})
+
+	downLeft, c := GetInDirectionIncludingOffGrid(grid, location, SW)
+	neighbors = append(neighbors, Neighbor[K]{Val: downLeft, Coords: c, Dir: SW})
+
+	downRight, c := GetInDirectionIncludingOffGrid(grid, location, SE)
+	neighbors = append(neighbors, Neighbor[K]{Val: downRight, Coords: c, Dir: SE})
 
 	return neighbors
 }

@@ -8,3 +8,5 @@
 **/testinput
 **/testinput.txt
 **/.zig-cache
+.direnv
+.envrc
